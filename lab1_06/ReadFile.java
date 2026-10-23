@@ -7,51 +7,43 @@ public class ReadFile {
         String fileName = "Test.txt";
         Scanner scanner = new Scanner(new File(fileName));
 
+        int countElements = 0;
+        int mxLen = -1;
         while (scanner.hasNextLine()) {
             String line = scanner.nextLine();
             System.out.println(line);
-        }
-        System.out.println("\n");
-
-        scanner = new Scanner(new File(fileName));
-        int countElements = 0;
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
             countElements += line.length();
+            if (line.length() > mxLen) {
+                mxLen = line.length();
+            }
 		}
         System.out.println("\n");
 
 
 		System.out.println("Кол-во символов: " + countElements);
         scanner = new Scanner(new File(fileName));
-        int mxLen = scanner.nextLine().length();
-        while (scanner.hasNextLine()) {
-            String line = scanner.nextLine();
-            if (line.length() > mxLen) {
-            	mxLen = line.length();
-            }
-		}
         System.out.println("Максимальная длина строки: " + mxLen);
+        scanner = new Scanner(new File(fileName));
+        int countWords = 0;
+        while (scanner.hasNext()) {
+            countWords++;
+            scanner.next();
+        }
+        System.out.println("Кол-во слов: " + countWords);
         System.out.println("\n");
-
-
+        
         scanner = new Scanner(new File(fileName));
         String[] arrWords = allWords(fileData(scanner));
-        System.out.println("Кол-во строк: " + arrWords.length);
+        
         int wIndex = 0;
-        String[] words = new String[21000]; //храним только в нижнем регистре
-        int[] counts = new int[21000];
+        String[] words = new String[5000]; //храним только в нижнем регистре
+        int[] counts = new int[5000];
 
         for (int i = 0; i < arrWords.length; i++) {
-            int count = 0;
+            
             if (wordNotCounted(words,arrWords[i])) {
                 words[wIndex] = arrWords[i];
-                for (int j = 0; j < arrWords.length; j++) {
-                    if (arrWords[i].equals(arrWords[j])) {
-                        count++;
-                    }
-                }
-                counts[wIndex++] = count;
+                counts[wIndex++] = findWord(arrWords[i], arrWords);
             }
         }
 
@@ -77,7 +69,8 @@ public class ReadFile {
         }
         return newWord;
     }
-    
+
+
     static String[] allWords(String str) {
         String[] words = clearWord(str).split(" ");
         int t = words.length;
@@ -87,6 +80,16 @@ public class ReadFile {
         }
         return lowWords;
 
+    }
+
+    static int findWord(String word, String[] arrWords) {
+        int count = 0;
+        for (int i = 0; i < arrWords.length; i++) {
+            if (word.equals(arrWords[i])) {
+                count++;
+            }
+        }
+        return count;
     }
 
     static boolean wordNotCounted(String[] words, String word) {
