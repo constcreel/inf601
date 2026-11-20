@@ -31,7 +31,6 @@ public class ReadFile {
         }
         System.out.println("Кол-во слов: " + countWords);
         System.out.println("\n");
-        
         scanner = new Scanner(new File(fileName));
         String[] arrWords = allWords(fileData(scanner));
         

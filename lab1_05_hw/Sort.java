@@ -20,7 +20,7 @@ public class Sort {
 	}
 	static void sort(int[] a) {
 		int n = (a.length)-1;
-		while (n > 0) {
+		while (n > 1) {
 			int t = a[n];
 			int mx_ind = max_i(a,n);
 			a[n] = a[mx_ind];
